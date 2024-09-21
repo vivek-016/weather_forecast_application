@@ -120,7 +120,8 @@ const cityLocation = function () {
         })
         .then(data => {
             if (data.length === 0) {
-                throw new Error('Location not found');
+                // if input is invalid or location not found
+                throw new Error('Location is invalid');
             }
             // Accessing the first result in the array
             const latitude = data[0].lat;
