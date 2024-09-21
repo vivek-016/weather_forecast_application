@@ -8,4 +8,4 @@
 * The search bar or input will only give out put to the valid location names only and alerts the users if invalid input is entered.
 * We also store the previously searched inputs in local storage and display in a dropdown list which appears on clicking the active input field.
 * User can select the input from the list directly and get the weather details.
-
+* Here is the link to the repositry to check commit history: 'https://github.com/vivek-016/weather_forecast_application'.
