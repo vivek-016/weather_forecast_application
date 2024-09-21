@@ -21,12 +21,12 @@ const pressure = document.getElementById('pr');
 
 
 const inputWeather = function (weathercard){
-    return `<div id="5d" class="h-full rounded-[10px]  min-w-24 max-w-32 sm:w-36 sm:max-w-36 lg:w-40 lg:max-w-40 xl:w-44 xl:max-w-44 2xl:w-56 2xl:max-w-56 bg-white backdrop-blur-xl bg-opacity-10 flex flex-wrap items-center justify-around">
+    return `<div id="5d" class=" p-2 h-full rounded-[10px]  min-w-24 max-w-32 sm:w-36 sm:max-w-36 lg:w-40 lg:max-w-40 xl:w-44 xl:max-w-44 2xl:w-56 2xl:max-w-56 bg-white backdrop-blur-[100px] bg-opacity-0 flex flex-wrap items-center justify-around">
                     
-                <div id="5d-temp1" class="h-[40%] flex flex-col space-x-2 flex-wrap items-center justify-around">
+                <div id="5d-temp1" class="h-[40%] flex flex-col    items-center justify-around">
                     <h3>${weathercard.dt_txt.split(" ")[0]}</h3><h4>${(weathercard.main.temp-273.15).toFixed(2)}°C</h4>
                 </div>
-                <div id="5d-icon1" class="w-full h-[60%] flex items-center justify-center">
+                <div id="5d-icon1" class="w-full h-[60%] flex items-center justify-center mt-2">
                     <img src="https://openweathermap.org/img/wn/${weathercard.weather[0].icon}@2x.png" alt="">
                 </div>
                 
@@ -165,7 +165,7 @@ loc_btn.addEventListener('click', myLocation);
 // Create dropdown options from searches stored in localStorage
 const updateSearchesDropdown = function () {
     const searches = JSON.parse(localStorage.getItem('searches')) || [];
-    const datalist = document.getElementById('searches');
+    const datalist = document.getElementById('src_loc');
     
     // Clear previous options
     datalist.innerHTML = '';
@@ -187,10 +187,12 @@ const storeSearch = function () {
         searches.push(searchValue);
         localStorage.setItem('searches', JSON.stringify(searches));
     }
+    updateSearchesDropdown();
 
 }
 
 
 
 search_btn.addEventListener('click', storeSearch);
+updateSearchesDropdown();
 
