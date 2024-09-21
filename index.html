@@ -13,34 +13,50 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Concert+One&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oswald:wght@200..700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Slabo+13px&family=Slabo+27px&family=Space+Grotesk:wght@300..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
-<body class="bg-[url('5231216.jpg')] bg-cover bg-center box-border max-h-screen m-0 p-0 lg:text-base xl:text-lg 2xl:text-2xl text-white">
-    <header class="bg-blue-500 max-h-[10vh] h-[10vh] max-w-full flex items-center justify-center">
-        <h1 class="font-bold text-white">Weather Forecast Application</h1>
+<!-- making the webpage a single screen by dividing the height for each section -->
+<body class="bg-[url('5231216.jpg')] bg-cover bg-center box-border max-h-screen m-0 p-0 lg:text-base xl:text-lg 2xl:text-2xl text-white " style="font-family: Space Grotesk, system-ui;">
+    <!-- Creating a header -->
+    <header class="bg-blue-500 max-h-[10vh] h-[10vh] max-w-full flex items-center justify-center" style="font-family: Concert One, system-ui;">
+        <h1 class="font-bold text-center text-3xl text-white">Weather Forecast Application</h1>
     </header>
     <main class="max-h-[90vh]">
+
+        <!-- thus section contains search bar and location -->
         <section id="location" class=" max-h-[20vh] h-[20vh] w-screen sm:h-[10vh] flex items-center ">
             <div id="search" class="flex flex-col mx-4 sm:flex-row justify-center md:justify-start">
                 <label for="city" class="sm:p-2 ml-2 mt-2 text-[2rem] text-orange-600 font-extrabold">Enter city name:</label>
                 <div class="flex flex-col">
-                    <input type="text" name="city" placeholder="Eg., London, New York" id="city" list="src_loc" class="h-10 resize-none rounded-lg p-2 mr-2 my-2 w-56 xl:w-72 2xl:w-96 lg:h-11 2xl:h-14 hover:scale-[1.02] transition-all ease-linear"></textarea>
-                    <datalist id="src_loc">
+
+                    <!-- used datalist as the drop down menu for the input -->
+                    <input type="text" name="city" placeholder="Eg., London, New York" id="city" list="src_loc" class="text-gray-500 h-10 resize-none rounded-lg p-2 mr-2 my-2 w-56 xl:w-72 2xl:w-96 lg:h-11 2xl:h-14 hover:scale-[1.02] transition-all ease-linear"></textarea>
+                    <datalist id="src_loc" class="max-h-10 overflow-y-scroll">
 
                     </datalist>
                 </div>
+
+                <!-- created buttons for the input field -->
                 <div id="btn-container" class="flex sm:items-center">
-                    <button id="srch" class="bg-orange-600 px-4 py-1 rounded-lg mr-2 h-fit sm:ml-2"><i class="fa-solid fa-magnifying-glass text-[2.2rem]"></i></button>
+                    <button id="srch" class="bg-orange-600 px-4 py-1 rounded-lg mr-2 sm:ml-2 hover:border-2 border-white hover:scale-[1.25] transition-all ease-linear">
+                        <i class="fa-solid fa-magnifying-glass text-[1.5rem] "></i>
+                    </button>
                 
-                    <button id="loc" class="bg-orange-600 px-4 py-1 rounded-lg mx-2 h-fit">
-                        <i class="fa-solid fa-location-dot text-[2.2rem]"></i>
+                    <button id="loc" class="bg-orange-600 px-4 py-1 rounded-lg mx-2 hover:border-2 border-white hover:scale-[1.25] transition-all ease-linear">
+                        <i class="fa-solid fa-location-dot text-[1.5rem] "></i>
                     </button>
                 </div>
-            </div>
+            </div>  
         </section>
+
+        <!-- This section displays the forecast details. -->
         <section id="forecast" class=" h-[45vh] w-screen sm:h-[50vh] sm:flex">
             <div id="weather" class="h-1/2 flex sm:flex-col sm:h-full sm:w-1/3">
-                <div id="date-icon" class="w-[60%] h-full sm:w-full box-border flex justify-center items-center">
+                <div id="date-icon" class="w-[60%] h-full sm:w-full box-border flex justify-center items-center z-10">
+
+                    <!-- created a blurred glass like effect for most of the containers for visual appeal. -->
                     <div id="date-icon-container" class="h-[90%] w-[95%] rounded-[10px] bg-white backdrop-blur-[100px] bg-opacity-0 p-2 lg:flex">
                         <div id="loc-date" class="box-border h-1/2 lg:h-full lg:w-1/2 flex flex-col justify-center items-center text-left">
+                            
+                            <!-- data is updated using js -->
                             <h2 id="curr_loc">Location</h2>
                             <h4 id="curr_date">Date</h4>
                         </div>
@@ -50,8 +66,10 @@
 
                     </div>
                 </div>
+
+                <!-- This container displays the current temperature and the weather description -->
                 <div id="description" class="w-[40%] h-full sm:w-full flex justify-center items-center">
-                    <div id="description-container" class="h-[90%] w-[95%] bg-white backdrop-blur-[100px] bg-opacity-0 rounded-[10px] flex flex-col justify-center items-center">
+                    <div id="description-container" class="h-[90%] w-[95%] bg-white backdrop-blur-[100px] bg-opacity-0 rounded-[10px] flex flex-col justify-center items-center z-10">
                         <div id="curr-temp" class="h-[60%] w-[95%]  flex justify-center items-center">
                             <h1 class="text-[200%] " id="curr_temp">__°C</h1>
                         </div>
@@ -61,7 +79,9 @@
                     </div>
                 </div>
             </div>
-            <div id="weather-details" class="bg-white backdrop-blur-[100px] bg-opacity-0 rounded-[10px] h-1/2 flex flex-wrap sm:w-2/3 sm:h-full">
+
+            <!-- This container contains 6 other containers with half of this container's height and 1/3 of the width and are wrapped together using flex-wrap. -->
+            <div id="weather-details" class="bg-white backdrop-blur-[100px] bg-opacity-0 rounded-[10px] h-1/2 flex flex-wrap sm:w-2/3 sm:h-full mr-4">
                 <div id="1" class="h-1/2 w-1/3  flex justify-center items-center">
                     <div id="wd1-container" class="h-[90%] w-[95%]  rounded-[5px] flex flex-col items-center justify-evenly">
                         <p>High-Temp</p>
@@ -106,8 +126,12 @@
                 </div>
             </div>
         </section>
+
+        <!-- This container displays the weather reports of the next 5days available. They are given scroll property on overflow to avoid overflow in small devices as they have independent sizes. -->
         <section id="5-day" class=" max-h-[25vh] h-[25vh] w-screen sm:max-h-[30vh] sm:h-[30vh] ">
-            <h2 class="h-[20%] flex items-center px-4">5-Day Forecast</h2>
+            <div class="ml-4 p-2 rounded-r-[50px] bg-orange-500 w-fit">
+                <h2 class="h-[20%] ml-6 flex items-center px-4 text-white font-bold">5-Day Forecast</h2>
+            </div>
             <div id="5d-container" class="h-[80%]  min-w-full flex overflow-x-scroll md:overflow-auto p-2 xl:py-4 2xl:py-8  justify-start space-x-2 sm:justify-evenly ">
 
                 <div id="5d" class="h-full rounded-[10px]  min-w-24 max-w-32 sm:w-36 sm:max-w-36 lg:w-40 lg:max-w-40 xl:w-44 xl:max-w-44 2xl:w-56 2xl:max-w-56 bg-white backdrop-blur-[100px] bg-opacity-0 flex flex-wrap items-center justify-around">

@@ -1,3 +1,4 @@
+// accessing all the inputs and the fetch input fields
 const search_btn = document.getElementById('srch');
 const city_input = document.getElementById('city');
 const API_key = 'b6d103966c184fef8eef9a49c7c7b7fe';
@@ -19,7 +20,7 @@ const windspeed = document.getElementById('ws');
 const feelslike = document.getElementById('fl');
 const pressure = document.getElementById('pr');
 
-
+// defining the function to rewrite the 5Days forecast containers
 const inputWeather = function (weathercard){
     return `<div id="5d" class=" p-2 h-full rounded-[10px]  min-w-24 max-w-32 sm:w-36 sm:max-w-36 lg:w-40 lg:max-w-40 xl:w-44 xl:max-w-44 2xl:w-56 2xl:max-w-56 bg-white backdrop-blur-[100px] bg-opacity-0 flex flex-wrap items-center justify-around">
                     
@@ -35,6 +36,8 @@ const inputWeather = function (weathercard){
             </div>`;
 }
 
+
+// defining the function to get weather details from openweather API
 const weatherDetails = function(latitude, longitude, Name){
 
     const url_5Day = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_key}`;
@@ -48,25 +51,28 @@ const weatherDetails = function(latitude, longitude, Name){
             const days5Forecast = data.list.filter(date=>{
                 const wdate = new Date(date.dt_txt).getDate();
                 const wtime = date.dt_txt.split(" ")[1];
-                if(wdate !== today && !uniqueDays.includes(wdate) && wtime === "09:00:00"){
+                
+                if(wdate !== today && !uniqueDays.includes(wdate) && wtime === "06:00:00"){
                     return uniqueDays.push(wdate);
                 }
             })
 
             console.log(days5Forecast);
-
+            // clearing the previous values
             fiveDayscards.innerHTML = "";
             city_input.value = "";
 
+            // We are creating the defined input weather div for each card
             days5Forecast.forEach(weathercard=>{
-                fiveDayscards.insertAdjacentHTML("beforeend", inputWeather(weathercard));
-                
+                fiveDayscards.insertAdjacentHTML("beforeend", inputWeather(weathercard)); 
             })
         })
         .catch(err=>{
-            console.log(err.message);
+            alert(err.message);
+            return;
         });
     
+    // fetching the curr weather details
     fetch(url_curr)
     .then(response=>response.json())
     .then(data=>{
@@ -89,22 +95,27 @@ const weatherDetails = function(latitude, longitude, Name){
         pressure.textContent = `${data.main.pressure}hpa`;
     })
     .catch(err=>{
-        console.log(err.message);
+        alert(err.message);
+        return;
     }
     )
     
 }
 
+// defining function to take latitudes and longitudes from input using geocoding API
 const cityLocation = function () {
     const city = city_input.value;
+    if(city === ""){
+        alert("please enter a location");
+        return;
+    }
 
     const loc_url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_key}`;
 
+    // fetching the location coords
     fetch(loc_url)
         .then(response => {
-            if (!response.ok) {
-                throw new Error(response.status);
-            }
+            
             return response.json(); // return the parsed JSON
         })
         .then(data => {
@@ -118,12 +129,18 @@ const cityLocation = function () {
             console.log(latitude, longitude, Name);
 
             weatherDetails(latitude, longitude, Name);
+
+            storeSearch(Name);
         })
-        .catch(err => {
-            console.log('Error:', err.message);
+        .catch(error => {
+            alert(`Error: ${error.message||error}`);
+            city_input.value = '';
+            return;
         });
 }
 
+
+// defining function for taking our latitude and longitude using the inbuilt browser geolocation
 const myLocation = function(){
     const successCallback = function(position){
         const latitude = position.coords.latitude;
@@ -132,34 +149,45 @@ const myLocation = function(){
 
         const reverse_loc_url = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=5&appid=${API_key}`;
 
+        // fetching location name using reverse geocoding api
         fetch(reverse_loc_url)
         .then(response=>response.json())
         .then(data=>{
             const Name = data[0].name;
             console.log(Name);
             weatherDetails(latitude, longitude, Name);
+
         })
         .catch(error=>{
-            console.log(error.message);
+            alert(error.message);
+            return;
         });
 
         
     }
     const errorCallback = function(error){
         alert(error.message);
+        return;
     }
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
     }
     else{
-        console.log("Geolocation is not supported in this browser.");
+        alert("Geolocation is not supported in this browser.");
+        return;
     }
     
     
 }
 
+// adding event listeners for buttons
 search_btn.addEventListener('click', cityLocation);
 loc_btn.addEventListener('click', myLocation);
+city_input.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        search_btn.click();        // Programmatically click the button
+    }
+});
 
 
 // Create dropdown options from searches stored in localStorage
@@ -178,21 +206,22 @@ const updateSearchesDropdown = function () {
     });
 }
 
-// Store searched city in session storage
-const storeSearch = function () {
+// Store searched city in localStorage function
+const storeSearch = function (searchValue) {
     let searches = JSON.parse(localStorage.getItem('searches')) || [];
-    const searchValue = city_input.value;
-    
+
+    console.log('working');
+
+    // Check if the searchValue is valid and not already in localStorage
     if (searchValue && !searches.includes(searchValue)) {
         searches.push(searchValue);
         localStorage.setItem('searches', JSON.stringify(searches));
     }
-    updateSearchesDropdown();
 
+    updateSearchesDropdown(); // Update the dropdown with the new search
 }
 
 
 
-search_btn.addEventListener('click', storeSearch);
-updateSearchesDropdown();
 
+updateSearchesDropdown();
